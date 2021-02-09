@@ -5,6 +5,11 @@ authors     = ["POMMI3R <kimhappy@hanyang.ac.kr>"]
 edition     = "2018"
 description = "A toy ray tracing engine based on Ray Tracing In One Weekend in Rust."
 license     = "MIT OR Apache-2.0"
+documentation = "https://docs.rs/dasom"
+readme = "README.md"
+repository = "https://github.com/POMMI3R/dasom-rs"
+keywords = ["graphics", "ray-tracing"]
+categories = ["graphics", "rendering::engine"]
 
 [dependencies]
 nalgebra     = "^0.24.1"
