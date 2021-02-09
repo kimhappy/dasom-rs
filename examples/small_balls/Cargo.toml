@@ -1,0 +1,10 @@
+[package]
+name = "small_balls"
+version = "0.1.0"
+authors = ["POMMI3R <kimhappy@hanyang.ac.kr>"]
+edition = "2018"
+
+[dependencies]
+dasom = { path = "../.." }
+image = "^0.23.12"
+rand  = "^0.8.3"
