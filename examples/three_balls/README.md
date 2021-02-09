@@ -2,7 +2,7 @@
 
 ![three balls](three_balls(1280x720).png)
 
-Three balls maybe you might know. It took about 10 minutes to render this on my machine.
+Three balls maybe you might know. It took about 70 seconds to render this on my machine.
 
 ## My machine
 
