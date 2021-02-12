@@ -59,12 +59,12 @@ fn main() {
 
     let start = std::time::Instant::now();
 
-    let world = small_balls();
+    let world  = small_balls();
     let camera = Camera::new(ratio, vfov, lrad, fdist, lookfrom, lookat, vup);
-    let rt = RayTracer::new(camera, ixsize, spp, rdepth);
+    let rt     = RayTracer::new(camera, ixsize, spp, rdepth);
     let buffer = rt.draw(&world).iter().map(|c| color2rgb(*c).channels().to_vec()).flatten().collect();
-
-    let image = ImageBuffer::from_vec(rt.ixsize, rt.iysize, buffer).unwrap();
+    let image  = ImageBuffer::from_vec(rt.ixsize, rt.iysize, buffer).unwrap();
     image.save(format!("{}({}x{}).png", img_name, rt.ixsize, rt.iysize)).unwrap();
+
     println!("Time elapsed: {:?}", start.elapsed());
 }

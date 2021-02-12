@@ -15,10 +15,6 @@ impl RayTracer {
         Self { camera, ixsize, iysize, spp, rdepth }
     }
 
-    pub fn set_camera(&mut self, camera: Camera) {
-        self.camera = camera;
-    }
-
     fn get_st(&self, (x, y): (Real, Real)) -> (Real, Real) {
         (x / (self.ixsize - 1) as Real, (self.iysize as Real - y - 1.0) / (self.iysize - 1) as Real)
     }
@@ -28,17 +24,18 @@ impl RayTracer {
     }
 
     fn ray_color(world: &Group, ray: Ray, depth: u32) -> Color {
-        if depth == 0 { return Color::new(0.0, 0.0, 0.0) }
-
-        if let Some(hr) = world.hit(ray, 0.001..Real::INFINITY) {
-            return hr.mat.scatter(ray, &hr).map_or(
-                Color::new(0.0, 0.0, 0.0),
-                |(scattered, attenuation)| attenuation * Self::ray_color(&world, scattered, depth - 1))
+        match (0..depth).try_fold(
+            (Color::new(1.0, 1.0, 1.0), ray),
+            |(color, ray), _| world.hit(ray, 0.001..Real::INFINITY)
+                .ok_or_else(|| {
+                    let t = 0.5 * (1.0 + ray.dir.normalize().y);
+                    color * ((1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.86, 0.92, 1.0)) })
+                .and_then(|hr| hr.mat.scatter(ray, &hr)
+                    .map(|(scattered, attenuation)| (color * attenuation, scattered))
+                    .ok_or_else(|| Color::new(0.0, 0.0, 0.0)))) {
+            Ok(_) => Color::new(0.0, 0.0, 0.0),
+            Err(color) => color,
         }
-
-        let ud = ray.dir.normalize();
-        let t = 0.5 * (1.0 + ud.y);
-        return (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.86, 0.92, 1.0)
     }
 
     pub fn draw(&self, world: &Group) -> Vec< Color > {
