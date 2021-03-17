@@ -9,4 +9,6 @@ A toy ray tracing engine based on [Ray Tracing In One Weekend](https://raytracin
 
 You can easily render images and add your own shapes or materials.
 
+This will help you write your own ray tracer, especially in a Rust's functional way without `mut` 😉
+
 [Examples](examples/) will be very helpful.
